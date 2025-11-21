@@ -34,7 +34,5 @@ https://www.assemblyai.com/dashboard/api-keys?project=1469808
 
 pip install -r requirements.txt
 
-$env:GEMINI_API_KEY="AIzaSyCREtAhLkc7jBbot9IDoWjsyRVdr5kIv5k"
 
-$env:ASSEMBLYAI_API_KEY="b505fd61f0af4002922e63142044bda3"
 
