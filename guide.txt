@@ -1,0 +1,40 @@
+주요 기능
+1. 입력 방식
+ - 로컬에 저장된 영상 또는 음성 파일의 경로를 입력받아 작업을 시작
+2. 출력 방식
+ - 스크립트를 실행할 때마다 output 폴더 아래에 [원본 파일명]_[숫자] 형식의 고유한 폴더를 새로 생성 (예: my_video_1, my_video_2)
+ - 모든 결과물(자막, 더빙 파일 등)은 해당 폴더 안에 저장, 이전 작업 내용이 덮어씌워지지 않음
+3. 핵심 작업 흐름
+ - Step 1 (환경 설정): API 키 유효성을 검사하고 고유 결과물 폴더를 생성
+ - Step 2 (음성 추출): 입력된 파일에서 원본 음성(*_audio_original.mp3)을 추출
+ - Step 3 (소음 제거): --dub 옵션 사용 시, 원본 음성에서 배경 소음을 제거한 깨끗한 음성 파일(*_audio_clean.wav)을 생성. 이 파일은 TTS의 목소리 학습에 사용
+ - Step 4 (음성 인식): AssemblyAI를 사용해 원본 음성을 텍스트와 타임스탬프로 변환
+ - Step 5 (번역): Gemini (gemini-2.5-flash 모델)를 사용해 인식된 텍스트를 번역.
+ - 번역 결과물(*_translated.txt)은  ., ?, ! 구두점 뒤에 줄바꿈이 적용되어 저장.
+ - Step 6 (자막 생성): 번역된 텍스트와 타임스탬프 정보로 .srt 형식의 자막 파일을 생성
+ - Step 7 (더빙 생성): --dub 옵션을 사용했을 경우에만 실행.
+ - Coqui TTS의 xtts_v2 다국어 모델을 사용
+ - 소음이 제거된 깨끗한 음성을 바탕으로 원본 화자와 비슷한 목소리를 복제(Voice Cloning)하여 더빙 파일(*_dubbed.mp3)을 생성
+
+최종 실행 명령어
+
+- 자막 파일만 생성할 경우:
+python gemini_translate.py "C:\경로\내 영상.mp4"
+
+- 자막과 더빙 파일을 모두 생성할 경우:
+python gemini_translate.py "C:\경로\내 영상.mp4" --dub
+
+GEMINI_API_KEY 링크
+https://aistudio.google.com/api-keys
+
+ASSEMBLYAI_API_KEY 링크
+https://www.assemblyai.com/dashboard/api-keys?project=1469808
+
+실행코드 
+
+pip install -r requirements.txt
+
+$env:GEMINI_API_KEY="AIzaSyCREtAhLkc7jBbot9IDoWjsyRVdr5kIv5k"
+
+$env:ASSEMBLYAI_API_KEY="b505fd61f0af4002922e63142044bda3"
+

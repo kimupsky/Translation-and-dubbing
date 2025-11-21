@@ -1,0 +1,13 @@
+google-generativeai
+ffmpeg-python
+requests
+pydub
+noisereduce
+scipy
+soundfile
+numpy
+gTTS
+elevenlabs
+coqui-tts
+torch
+torchaudio
